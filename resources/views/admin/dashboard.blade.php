@@ -464,7 +464,11 @@
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
                   <a href="#" class="btn btn-outline-secondary">Profile</a>
-                  <a href="#" class="btn btn-outline-danger float-end">Sign out</a>
+
+                  <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger float-end">Sign out</button>
+                </form>
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -552,12 +556,13 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
-                <a href="./starter.html" class="nav-link">
-                  <i class="nav-icon bi bi-file-earmark"></i>
-                  <p>Starter Page</p>
+
+            <li class="nav-item">
+                <a href="{{ route('products.index') }}" class="nav-link">
+                    <i class="nav-icon bi bi-box-seam"></i>
+                    <p>Produk</p>
                 </a>
-              </li>
+            </li>
               <li class="nav-item">
                 <a href="./generate/theme.html" class="nav-link">
                   <i class="nav-icon bi bi-palette"></i>

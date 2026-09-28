@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             SupplierSeeder::class,
+            UserSeeder::class,
         ]);
 
         // 2. Menjalankan Factory untuk membuat 50 data produk dummy

@@ -1,79 +1,165 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Login Admin</title>
+    <title>Login - Minimarket</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+        crossorigin="anonymous"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        crossorigin="anonymous"
+    >
+
+    <!-- AdminLTE -->
+    <link
+        rel="stylesheet"
+        href="{{ asset('assets/admin/css/adminlte.css') }}"
+    >
 </head>
 
-<body class="bg-light">
+<body class="login-page bg-body-secondary">
 
-    <div class="container">
-        <div class="row justify-content-center align-items-center min-vh-100">
+    <div class="login-box">
 
-            <div class="col-md-5 col-lg-4">
+        <!-- Logo / Judul -->
+        <div class="login-logo">
+            <b>Minimarket</b>
+        </div>
 
-                <div class="card shadow border-0">
+        <div class="card">
 
-                    <div class="card-body p-4">
+            <div class="card-body login-card-body">
 
-                        <h3 class="text-center mb-4">
-                            Login Admin
-                        </h3>
+                <p class="login-box-msg">
+                    Silakan login untuk melanjutkan
+                </p>
 
-                        <form>
+                {{-- Error login --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">
-                                    Email
-                                </label>
+                {{-- Status session --}}
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
 
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+
+                    {{-- Email --}}
+                    <div class="input-group mb-3">
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            value="{{ old('email') }}"
+                            placeholder="Email"
+                            required
+                            autofocus
+                        >
+
+                        <div class="input-group-text">
+                            <span class="bi bi-envelope"></span>
+                        </div>
+                    </div>
+
+                    {{-- Password --}}
+                    <div class="input-group mb-3">
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Password"
+                            required
+                        >
+
+                        <div class="input-group-text">
+                            <span class="bi bi-lock"></span>
+                        </div>
+                    </div>
+
+                    {{-- Remember + Login --}}
+                    <div class="row">
+
+                        <div class="col-8">
+                            <div class="form-check">
                                 <input
-                                    type="email"
-                                    class="form-control"
-                                    id="email"
-                                    placeholder="Masukkan email"
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="remember"
+                                    id="remember"
                                 >
-                            </div>
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label">
-                                    Password
+                                <label
+                                    class="form-check-label"
+                                    for="remember"
+                                >
+                                    Ingat saya
                                 </label>
-
-                                <input
-                                    type="password"
-                                    class="form-control"
-                                    id="password"
-                                    placeholder="Masukkan password"
-                                >
                             </div>
+                        </div>
 
-                            <a href="{{ route('admin') }}"
-                               class="btn btn-primary w-100">
-                                Login
-                            </a>
-
-                        </form>
-
-                        <div class="text-center mt-3">
-                            <a href="{{ route('frontend') }}"
-                               class="text-decoration-none">
-                                Kembali ke halaman utama
-                            </a>
+                        <div class="col-4">
+                            <div class="d-grid">
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                >
+                                    Masuk
+                                </button>
+                            </div>
                         </div>
 
                     </div>
+                </form>
+
+                <div class="mt-3 text-center">
+
+                    @if (Route::has('password.request'))
+                        <p class="mb-2">
+                            <a href="{{ route('password.request') }}">
+                                Lupa password?
+                            </a>
+                        </p>
+                    @endif
+
+                    @if (Route::has('register'))
+                        <p class="mb-0">
+                            Belum punya akun?
+                            <a href="{{ route('register') }}">
+                                Daftar
+                            </a>
+                        </p>
+                    @endif
 
                 </div>
 
             </div>
 
         </div>
+
     </div>
 
 </body>
+
 </html>

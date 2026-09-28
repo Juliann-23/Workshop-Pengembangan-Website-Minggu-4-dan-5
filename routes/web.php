@@ -1,22 +1,38 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KasirController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MahasiswaController;
 
-// Frontend
+
 Route::get('/', function () {
-    return view('frontend.index');
-})->name('frontend');
+    return redirect()->route('login');
+});
 
-// Login
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::middleware(['auth'])->group(function () {
 
-// Admin
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-})->name('admin');
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])
+            ->name('admin.dashboard');
 
-// Tugas sebelumnya
-Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
+         Route::resource('products', ProductController::class);
+    });
+
+    Route::middleware('role:kasir')->group(function () {
+        Route::get('/kasir/dashboard', [KasirController::class, 'dashboard'])
+            ->name('kasir.dashboard');
+    });
+
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
